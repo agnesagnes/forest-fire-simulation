@@ -24,27 +24,30 @@ The project contains two sub-folders:
 
 ### Installation and usage
 
-- Inside ./client:
-
-```sh
-npm install
-npm run dev
-```
-
 - Inside ./server:
-
 ```sh
 mvn clean install
 java -jar target/simulation-0.0.1-SNAPSHOT.jar
 ```
+The server is accessible on port 8080
+
+- Inside ./client:
+```sh
+npm install
+npm run dev
+```
+The client is accessible on port 5173 by default and displays the simulation
 
 ### Configuration file content
 
-The configuration file can on the server side: ./server/src/main/resources/application.yml
-It contains the following variables that can be change:
+The server configuration file is ./server/src/main/resources/application.yml
+It contains the following variables:
 - propagationProbability (between 0 and 1)
-- height (of the grid)
-- width (of the grid)
+- height (of the forest grid)
+- width (of the forest grid)
 - initialFirePositions (array of {row, column} fire positions)
 
-The client expects the server on port 8080, if this is not the case you can change it here: ./client/src/config/configuration.js
+The client configuration file is ./client/src/config/configuration.js
+It contains the following variables:
+- serverPort (8080)
+- simulationDelay (100 ms)

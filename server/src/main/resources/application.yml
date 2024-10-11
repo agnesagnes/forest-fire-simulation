@@ -2,9 +2,6 @@ spring:
   application:
     name: fire-simulation
 
-client:
-  port: 5173
-
 simulation:
   propagationProbability: 0.7
   height: 50

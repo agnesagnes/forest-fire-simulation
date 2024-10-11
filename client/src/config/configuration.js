@@ -1,1 +1,4 @@
-export const serverPort = 8080;
+export const configuration = {
+    serverPort: 8080,
+    simulationDelay: 100 //ms
+}

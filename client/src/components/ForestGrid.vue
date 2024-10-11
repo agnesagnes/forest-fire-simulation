@@ -1,21 +1,21 @@
 <script setup>
 import { onBeforeMount, onUnmounted, ref } from 'vue';
 import { FireStates } from '@/constants/fireStates';
-import { serverPort } from '@/config/configuration';
+import { configuration } from '@/config/configuration';
 
 // Initialize forest fire simulation
 const burningForest = ref([])
 onBeforeMount(async () => await initBurningForestSimulation())
 
 // Step by step forest fire simulation
-let timerId = setInterval(async () => await forestFireSimulation(), 1);
+let timerId = setInterval(async () => await forestFireSimulation(), configuration.simulationDelay);
 onUnmounted(() => {
     clearInterval(timerId);
 });
 
 async function initBurningForestSimulation() {
     try {
-        const response = await fetch(`http://localhost:${serverPort}/forest/simulation/initialize`)
+        const response = await fetch(`http://localhost:${configuration.serverPort}/forest/simulation/initialize`)
         const json = await response.json()
         fillBurningForest(json)
     } catch(error) {
@@ -25,7 +25,7 @@ async function initBurningForestSimulation() {
 
 async function forestFireSimulation() {
     try {
-        const response = await fetch(`http://localhost:${serverPort}/forest/simulation/advance`)
+        const response = await fetch(`http://localhost:${configuration.serverPort}/forest/simulation/advance`)
         const json = await response.json()
         fillBurningForest(json)
     } catch(error) {
