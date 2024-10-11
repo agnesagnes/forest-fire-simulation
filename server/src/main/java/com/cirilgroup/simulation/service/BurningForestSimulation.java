@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BurningForestSimulation {
 
-    private int steps;
     private List<Point> firePositions;
     private final int[][] burningForest;
     private final AtomicBoolean isProcessing;
@@ -17,7 +16,6 @@ public class BurningForestSimulation {
     BurningForestSimulation(SimulationConfiguration configuration) {
         this.isProcessing = new AtomicBoolean();
         this.configuration = configuration;
-        this.steps = 0;
         burningForest = new int[configuration.getHeight()][configuration.getWidth()];
         firePositions = List.copyOf(configuration.getInitialFirePositions());
         for(final Point firePosition : firePositions) {
@@ -29,7 +27,6 @@ public class BurningForestSimulation {
         if(!isProcessing.compareAndSet(false, true)) {
             return burningForest;
         }
-        steps++;
         final List<Point> newFirePositions = new ArrayList<>();
         for(final Point firePosition : firePositions) {
             final int fireRow = firePosition.row();
