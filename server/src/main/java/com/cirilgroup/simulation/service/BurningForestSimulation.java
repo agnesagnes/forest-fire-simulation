@@ -4,17 +4,14 @@ import com.cirilgroup.simulation.configuration.SimulationConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BurningForestSimulation {
 
     private List<Point> firePositions;
     private final int[][] burningForest;
-    private final AtomicBoolean isProcessing;
     private final SimulationConfiguration configuration;
 
     BurningForestSimulation(SimulationConfiguration configuration) {
-        this.isProcessing = new AtomicBoolean();
         this.configuration = configuration;
         burningForest = new int[configuration.getHeight()][configuration.getWidth()];
         firePositions = List.copyOf(configuration.getInitialFirePositions());
@@ -23,10 +20,7 @@ public class BurningForestSimulation {
         }
     }
 
-    int[][] nextSimulationStep() {
-        if(!isProcessing.compareAndSet(false, true)) {
-            return burningForest;
-        }
+    synchronized int[][] nextSimulationStep() {
         final List<Point> newFirePositions = new ArrayList<>();
         for(final Point firePosition : firePositions) {
             final int fireRow = firePosition.row();
@@ -46,7 +40,6 @@ public class BurningForestSimulation {
             burningForest[fireRow][fireColumn] = FireState.ASHES.ordinal();
         }
         firePositions = newFirePositions;
-        isProcessing.set(false);
         return burningForest;
     }
 
@@ -57,7 +50,7 @@ public class BurningForestSimulation {
         }
     }
 
-    int[][] getBurningForest() {
+    synchronized int[][] getBurningForest() {
         return burningForest;
     }
 }
