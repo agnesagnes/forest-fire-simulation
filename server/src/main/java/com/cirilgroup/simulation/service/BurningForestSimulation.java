@@ -13,8 +13,8 @@ public class BurningForestSimulation {
 
     BurningForestSimulation(SimulationConfiguration configuration) {
         this.configuration = configuration;
-        burningForest = new int[configuration.getHeight()][configuration.getWidth()];
-        firePositions = List.copyOf(configuration.getInitialFirePositions());
+        burningForest = new int[configuration.height()][configuration.width()];
+        firePositions = List.copyOf(configuration.initialFirePositions());
         for(final Point firePosition : firePositions) {
             burningForest[firePosition.row()][firePosition.column()] = FireState.FIRE.ordinal();
         }
@@ -44,7 +44,7 @@ public class BurningForestSimulation {
     }
 
     private void updateFireNeighbor(int row, int column, List<Point> newFirePositions) {
-        if (burningForest[row][column] == FireState.NOFIRE.ordinal() && Math.random() < configuration.getPropagationProbability()) {
+        if (burningForest[row][column] == FireState.NOFIRE.ordinal() && Math.random() < configuration.propagationProbability()) {
             burningForest[row][column] = FireState.FIRE.ordinal();
             newFirePositions.add(new Point(row, column));
         }

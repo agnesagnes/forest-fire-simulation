@@ -5,10 +5,10 @@ import { configuration } from '@/config/configuration';
 
 // Initialize forest fire simulation
 const burningForest = ref([])
-onBeforeMount(async () => await initBurningForestSimulation())
+onBeforeMount(initBurningForestSimulation)
 
 // Step by step forest fire simulation
-let timerId = setInterval(async () => await forestFireSimulation(), configuration.simulationDelay);
+let timerId = setInterval(forestFireSimulation, configuration.simulationDelay);
 onUnmounted(() => {
     clearInterval(timerId);
 });
@@ -36,7 +36,7 @@ async function forestFireSimulation() {
 function fillBurningForest(json) {
     let isFire = false;
     json.forEach((row, i) => {
-        burningForest.value.push([])
+        if(burningForest.value.length < json.length) burningForest.value.push([])
         row.forEach((column, j) => {
             if(column == FireStates.Fire) isFire = true
             burningForest.value[i][j] = column
